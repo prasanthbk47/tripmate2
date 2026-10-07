@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripMate - Travel Assistance</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">P</div>
+            <div>
+                <div class="brand-name">TripMate</div>
+                <div class="brand-tagline">Travel together</div>
+            </div>
+        </div>
+
+        <button class="new-trip-btn" id="openTripModal">
+            <span>＋</span>
+            Plan a New Trip
+        </button>
+
+        <nav class="navigation">
+
+            <button class="nav-btn active" data-view="dashboard">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-btn" data-view="trips">
+                <span class="nav-icon">▣</span>
+                <span>My Trips</span>
+            </button>
+
+            <button class="nav-btn" data-view="vault">
+                <span class="nav-icon">₹</span>
+                <span>Budget Vault</span>
+            </button>
+
+            <button class="nav-btn" data-view="itinerary">
+                <span class="nav-icon">☷</span>
+                <span>Itinerary</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sync-box">
+                <div class="sync-dot" id="syncDot"></div>
+                <div>
+                    <strong id="syncText">Connecting...</strong>
+                    <small id="lastSync">Waiting for database</small>
+                </div>
+            </div>
+
+            <button class="refresh-btn" id="refreshBtn">
+                ↻ &nbsp; Sync Now
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <div class="page-kicker" id="pageKicker">TRAVEL ASSISTANT</div>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="database-status">
+                    <span class="status-dot" id="topStatusDot"></span>
+                    <span id="topStatusText">Connecting</span>
+                </div>
+
+                <button class="top-new-btn" id="topNewTrip">
+                    + New Trip
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section class="view active" id="view-dashboard">
+
+            <div class="welcome-card">
+
+                <div>
+                    <div class="welcome-label">YOUR JOURNEY STARTS HERE</div>
+                    <h2>Plan. Travel. Remember.</h2>
+                    <p>
+                        Keep your trips, members, budget and itinerary together
+                        in one simple place.
+                    </p>
+
+                    <button class="primary-btn" id="dashboardNewTrip">
+                        Plan a New Trip
+                    </button>
+                </div>
+
+                <div class="welcome-graphic">
+                    <div class="graphic-circle circle-one"></div>
+                    <div class="graphic-circle circle-two"></div>
+                    <div class="plane">✈</div>
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">▣</div>
+                    <div>
+                        <span>Total Trips</span>
+                        <strong id="statTrips">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">●</div>
+                    <div>
+                        <span>Active Trips</span>
+                        <strong id="statActive">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">₹</div>
+                    <div>
+                        <span>Total Budget</span>
+                        <strong id="statBudget">₹0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">◉</div>
+                    <div>
+                        <span>Total Spent</span>
+                        <strong id="statSpent">₹0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Recent Trips</h2>
+                    <p>Your latest travel plans</p>
+                </div>
+
+                <button class="text-btn" id="viewAllTrips">
+                    View All →
+                </button>
+
+            </div>
+
+            <div class="trip-grid" id="dashboardTrips">
+                <div class="empty-state">
+                    <div class="empty-icon">✈</div>
+                    <h3>No trips yet</h3>
+                    <p>Create your first trip to get started.</p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- MY TRIPS -->
+        <section class="view" id="view-trips">
+
+            <div class="section-toolbar">
+
+                <div>
+                    <h2>My Trips</h2>
+                    <p>Manage all your journeys</p>
+                </div>
+
+                <button class="primary-btn" id="tripsNewTrip">
+                    + New Trip
+                </button>
+
+            </div>
+
+            <div class="filters">
+
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        type="text"
+                        id="tripSearch"
+                        placeholder="Search trips..."
+                    >
+                </div>
+
+                <select id="tripFilter">
+                    <option value="all">All Trips</option>
+                    <option value="active">Active</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="completed">Completed</option>
+                </select>
+
+            </div>
+
+            <div class="trip-grid large" id="allTrips"></div>
+
+        </section>
+
+
+        <!-- BUDGET VAULT -->
+        <section class="view" id="view-vault">
+
+            <div class="section-toolbar">
+
+                <div>
+                    <h2>Budget Vault</h2>
+                    <p>Track every rupee of your trip</p>
+                </div>
+
+                <select class="trip-selector" id="vaultTripSelect">
+                    <option value="">Select a trip</option>
+                </select>
+
+            </div>
+
+            <div id="vaultContent">
+
+                <div class="empty-state large-empty">
+                    <div class="empty-icon">₹</div>
+                    <h3>Select a trip</h3>
+                    <p>Select a trip above to view its budget vault.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ITINERARY -->
+        <section class="view" id="view-itinerary">
+
+            <div class="section-toolbar">
+
+                <div>
+                    <h2>Itinerary</h2>
+                    <p>Organize your places and daily plans</p>
+                </div>
+
+                <select class="trip-selector" id="itineraryTripSelect">
+                    <option value="">Select a trip</option>
+                </select>
+
+            </div>
+
+            <div id="itineraryContent">
+
+                <div class="empty-state large-empty">
+                    <div class="empty-icon">☷</div>
+                    <h3>Select a trip</h3>
+                    <p>Select a trip to view its itinerary.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- NEW TRIP MODAL -->
+<div class="modal-overlay" id="tripModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <div class="modal-kicker">NEW JOURNEY</div>
+                <h2>Create a New Trip</h2>
+            </div>
+
+            <button class="close-btn" data-close="tripModal">×</button>
+        </div>
+
+        <form id="tripForm">
+
+            <div class="form-section">
+
+                <h3>Trip Details</h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Trip Name *</label>
+                        <input
+                            type="text"
+                            id="tripName"
+                            placeholder="Example: Goa Adventure"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Days</label>
+                        <input
+                            type="number"
+                            id="tripDays"
+                            min="1"
+                            placeholder="5"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Trip Budget (₹)</label>
+                        <input
+                            type="number"
+                            id="tripBudget"
+                            min="0"
+                            placeholder="60000"
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Travel Type</label>
+
+                        <select id="travelType">
+
+                            <option value="Car">🚗 Car</option>
+                            <option value="Bus">🚌 Bus</option>
+                            <option value="Train">🚆 Train</option>
+                            <option value="Bike">🏍 Bike</option>
+                            <option value="Flight">✈ Flight</option>
+                            <option value="Other">Other</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h3>Travel Members</h3>
+
+                <div class="form-group">
+
+                    <label>Number of Members</label>
+
+                    <input
+                        type="number"
+                        id="memberCount"
+                        min="1"
+                        max="30"
+                        value="2"
+                    >
+
+                </div>
+
+                <div id="memberFields" class="member-fields"></div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h3>Places to Visit</h3>
+
+                <div class="form-group">
+
+                    <label>Places</label>
+
+                    <textarea
+                        id="places"
+                        rows="4"
+                        placeholder="Enter places separated by commas or new lines&#10;Example: Pune, Mumbai, Goa"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    data-close="tripModal"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Create Trip
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- EXPENSE MODAL -->
+<div class="modal-overlay" id="expenseModal">
+
+    <div class="modal small-modal">
+
+        <div class="modal-header">
+
+            <div>
+                <div class="modal-kicker">BUDGET VAULT</div>
+                <h2>Add Expense</h2>
+            </div>
+
+            <button class="close-btn" data-close="expenseModal">×</button>
+
+        </div>
+
+        <form id="expenseForm">
+
+            <div class="form-group">
+                <label>Amount (₹) *</label>
+                <input
+                    type="number"
+                    id="expenseAmount"
+                    min="1"
+                    placeholder="1000"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Purpose *</label>
+                <input
+                    type="text"
+                    id="expensePurpose"
+                    placeholder="Food, Hotel, Fuel..."
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+
+                <select id="expenseCategory">
+
+                    <option value="Food">🍴 Food</option>
+                    <option value="Transport">🚗 Transport</option>
+                    <option value="Hotel">🏨 Hotel</option>
+                    <option value="Tickets">🎟 Tickets</option>
+                    <option value="Shopping">🛍 Shopping</option>
+                    <option value="Other">Other</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Paid By</label>
+
+                <select id="expenseMember">
+                    <option value="">Select member</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="expenseDate">
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    data-close="expenseModal"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Add Expense
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ITINERARY MODAL -->
+<div class="modal-overlay" id="placeModal">
+
+    <div class="modal small-modal">
+
+        <div class="modal-header">
+
+            <div>
+                <div class="modal-kicker">ITINERARY</div>
+                <h2>Add Plan</h2>
+            </div>
+
+            <button class="close-btn" data-close="placeModal">×</button>
+
+        </div>
+
+        <form id="placeForm">
+
+            <div class="form-group">
+                <label>Date *</label>
+                <input type="date" id="planDate" required>
+            </div>
+
+            <div class="form-group">
+                <label>Place / Activity *</label>
+                <input
+                    type="text"
+                    id="planTitle"
+                    placeholder="Example: Gateway of India"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+
+                <textarea
+                    id="planNotes"
+                    rows="4"
+                    placeholder="Add timings, tickets, reminders..."
+                ></textarea>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    data-close="placeModal"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Add to Itinerary
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastMessage">Done</span>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
